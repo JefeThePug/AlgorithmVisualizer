@@ -1,0 +1,300 @@
+:root {
+    --dark-text: #FF6500;
+    --dark-highlight1: #1E3E62;
+    --dark-highlight2: #0B192C;
+    --dark-bg: #000000;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    font-family: "Averia Sans Libre", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+    padding: 1.5em;
+}
+
+canvas {
+    border: 5px solid var(--dark-highlight1);
+    box-shadow: var(--dark-highlight1) 0px 2px 4px,
+    var(--dark-highlight1) 0px 4px 8px,
+    var(--dark-highlight1) 0px 8px 16px;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 1200px;
+    height: 2.5em;
+}
+
+label {
+    white-space: nowrap;
+}
+
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin: 10px;
+}
+
+.dropdown select {
+    align-content: center;
+    background-color: var(--dark-highlight1);
+    color: var(--dark-text);
+    font-size: .8em;
+    padding: 0 2.5em 0 .5em;
+    height: 100%;
+    border: none;
+    border-radius: 3px;
+    font-family: "Averia Sans Libre", sans-serif;
+    text-indent: 0.01px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    margin: 0.2em;
+    width: 100%;
+}
+
+.dropdown::before,
+.dropdown::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+}
+
+.dropdown::after {
+    color: var(--dark-highlight1);
+    content: "\25BC";
+    font-size: .625em;
+    right: 1.2em;
+    top: 50%;
+    margin-top: -.5em;
+    text-shadow: 0 0 3px var(--dark-text);
+}
+
+.dropdown::before {
+    background-color: var(--dark-highlight2);
+    width: 2em;
+    height: 100%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.dropdown:hover::before, .dropdown:focus::before {
+    background-color: var(--dark-text);
+}
+
+#manual {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    flex-shrink: 0;
+    gap:2em;
+}
+
+#auto {
+    display: none;
+    justify-content: center;
+    margin: 10px;
+    flex-shrink: 0;
+    gap: 1em;
+}
+
+.button-box {
+    background-color: var(--dark-highlight1);
+    display: flex;
+    width: 6.5em;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+}
+.button-box.wide {
+    width: 7.5em;
+}
+
+.control {
+    position: relative;
+    height: 2em;
+    width: 2em;
+    font-size: 18px;
+    padding: 10px;
+    outline: none;
+    border: 0;
+    background: var(--dark-highlight2);
+    color: var(--dark-text);
+    margin: 3px 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.control.selected {
+    color: white;
+}
+
+#frame-num {
+    display: flex;
+    width: 2em;
+    padding: 0;
+    color: var(--dark-text);
+    background: var(--dark-highlight2, transparent);
+    border: none;
+    text-align: center;
+    outline: none;
+}
+
+.selected::before {
+    content: "";
+    position: absolute;
+    background: var(--dark-text);
+    top: 5%;
+    left: 5%;
+    width: 80%;
+    height: 80%;
+    opacity: 0.5;
+    border: 2px solid var(--dark-text);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.options-container {
+    margin: 0 0.8em;
+    display: flex;
+    font-size: small;
+    flex-grow: 1;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#speed-value {
+    display: block;
+    text-align: left;
+    padding-left: 3em;
+}
+
+.slider {
+    appearance: none;
+    position: relative;
+    width: 100%;
+    height: 1.5em;
+    background: transparent;
+    outline: none;
+    border-radius: 15px;
+    transition: opacity 0.2s;
+}
+
+.slider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-highlight1);
+    border-radius: 15px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+    z-index: -1;
+}
+
+.slider:hover::before,
+.slider:focus::before {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    border-radius: 15px;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--dark-text);
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+.slider::-moz-range-thumb {
+    -moz-appearance: none;
+}
+
+.switch-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 16px;
+    gap: 1em;
+}
+
+#explanations {
+    width: 3em;
+    margin: 0;
+    visibility: hidden;
+}
+
+.switch {
+    position: relative;
+    align-content: center;
+    width: 7em;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    align-content: center;
+    border-radius: 34px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark-highlight2);
+    -webkit-transition: .4s;
+    transition: .4s;
+    width: 3em;
+}
+
+.switch-slider:before {
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 1em;
+    width: 1em;
+    left: 10%;
+    bottom: 10%;
+    background-color: var(--dark-text);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .switch-slider {
+    background-color: var(--dark-highlight1);
+}
+
+input:checked + .switch-slider:before {
+    -webkit-transform: translateX(1.6em);
+    -ms-transform: translateX(1.6em);
+    transform: translateX(1.6em);
+}
+
+#explanation-area {
+    display: block;
+}
