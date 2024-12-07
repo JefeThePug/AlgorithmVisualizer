@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Averia+Sans+Libre&family=Roboto+Mono&display=swap"
+          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="libraries/p5.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+    <script src="sketch.js"></script>
+</head>
+
+
+<body>
+<div class="container">
+    <div class="dropdown">
+        <label for="algorithms">Choose an algorithm:</label>
+        <select name="algorithms" id="algorithms">
+            <option value="none" disabled selected>...</option>
+            <option value="bfs">BFS Algorithm</option>
+            <option value="dfs">DFS Algorithm</option>
+            <option value="kahn">Kahn's Algorithm</option>
+            <option value="ff">Ford Fulkerson Algorithm</option>
+        </select>
+    </div>
+    <div class="dropdown">
+        <label for="mode">Mode:</label>
+        <select name="mode" id="mode">
+            <option value="manual">Learning</option>
+            <option value="auto">Auto-Play</option>
+        </select>
+    </div>
+
+    <div id="manual">
+        <div class="button-box wide">
+            <button class="control" id="man-start"><i class="fas fa-backward-fast"></i></button>
+            <button class="control" id="man-back"><i class="fas fa-caret-left"></i></button>
+            <input type="text" id="frame-num" value="0" pattern="^\d+$" autocomplete="off"/>
+            <button class="control" id="man-forward"><i class="fas fa-caret-right"></i></button>
+            <button class="control" id="man-end"><i class="fas fa-forward-fast"></i></button>
+        </div>
+        <label class="options-container" for="explanations">
+            <div class="switch">Explanations</div>
+            <div class="switch-container">
+                <input id="explanations" type="checkbox" checked>
+                <span class="switch-slider"></span>
+                <span id="explanation-val">On</span>
+            </div>
+        </label>
+    </div>
+
+    <div id="auto">
+        <div class="button-box">
+            <button class="control" id="auto-start"><i class="fas fa-backward-fast"></i></button>
+            <button class="control" id="auto-play"><i class="fas fa-play"></i></button>
+            <button class="control selected" id="auto-pause"><i class="fas fa-pause"></i></button>
+            <button class="control" id="auto-end"><i class="fas fa-forward-fast"></i></button>
+        </div>
+        <div class="options-container">
+            <label id="speed-value" for="speed">Speed : 1x</label>
+            <input type="range" min="0.25" max="3.0" value="1.0" step="0.25" class="slider" id="speed"/>
+        </div>
+    </div>
+
+</div>
+
+<main>
+</main>
+
+<div id="explanation-area">
+</div>
+
+<script>
+    const slider = document.getElementById('speed');
+    const display = document.getElementById('speed-value');
+    const modeSelect = document.getElementById('mode');
+    const manualDiv = document.getElementById('manual');
+    const autoDiv = document.getElementById('auto');
+    const explanation = document.getElementById('explanation-area')
+    const autoButtons = document.querySelectorAll('#auto .control');
+    const autoPauseButton = document.getElementById('auto-pause');
+    const manualButtons = document.querySelectorAll('#manual .control');
+    const frameNum = document.getElementById('frame-num');
+    const afterLabel = document.getElementById('explanation-val');
+    const checkBox = document.getElementById('explanations');
+
+    slider.addEventListener('input', () => {
+        display.textContent = `Speed : ${slider.value}x`;
+    });
+
+    modeSelect.addEventListener('change', () => {
+        if (modeSelect.value === 'manual') {
+            manualDiv.style.display = 'flex';
+            autoDiv.style.display = 'none';
+            if (checkBox.checked) explanation.style.display = 'block';
+        } else if (modeSelect.value === 'auto') {
+            manualDiv.style.display = 'none';
+            autoDiv.style.display = 'flex';
+            explanation.style.display = 'none';
+        }
+    });
+
+    autoButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            autoButtons.forEach((b) => {
+                b.classList.remove('selected');
+            });
+            button.classList.add('selected');
+            if (!button.id.startsWith('auto-p')) {
+                setTimeout(() => {
+                    button.classList.remove('selected');
+                    autoPauseButton?.classList.add('selected');
+                }, 500);
+            }
+        });
+    });
+
+    manualButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            button.classList.add('selected');
+            if (button.id.endsWith('start')) {
+                frameNum.value = '0';
+            } else if (button.id.endsWith('forward')) {
+                frameNum.value = (+frameNum.value + 1).toString();
+                frameNum.value = frameNum.value.replace(/^0+(?=\d)/, '');
+            } else if (button.id.endsWith('back')) {
+                frameNum.value = Math.max(0, +frameNum.value - 1).toString();
+                frameNum.value = frameNum.value.replace(/^0+(?=\d)/, '');
+            }
+            setTimeout(() => {
+                button.classList.remove('selected');
+            }, 500);
+
+        });
+    });
+
+    frameNum.addEventListener('focus', () => {
+        frameNum.value = '';
+    });
+
+    frameNum.addEventListener('input', () => {
+        console.log(frameNum.value)
+        if (frameNum.value === '-') {
+            frameNum.setCustomValidity("Negative numbers are not allowed!");
+            frameNum.value = "0";
+        } else if (frameNum.value.includes('.')) {
+            frameNum.setCustomValidity("Decimals are not allowed!");
+            frameNum.value = Math.floor(frameNum.value)
+        } else if (!/^\d+$/.test(frameNum.value)) {
+            frameNum.setCustomValidity("");
+            frameNum.value = "";
+        } else {
+            frameNum.setCustomValidity("");
+        }
+        frameNum.reportValidity();
+        frameNum.value = frameNum.value.replace(/^0+(?=\d)/, '');
+    });
+
+    checkBox.addEventListener('change', () => {
+        afterLabel.textContent = checkBox.checked ? 'On' : 'Off';
+        explanation.style.display = checkBox.checked ? 'block': 'none';
+
+    })
+</script>
+</body>
+</html>
