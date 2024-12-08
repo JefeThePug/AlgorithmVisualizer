@@ -1,5 +1,4 @@
-const DarkBG = "#0B192C"
-const LightBG = ""
+let bg;
 
 function setup() {
     createCanvas(1200, 600); // inside <main>
@@ -8,5 +7,6 @@ function setup() {
 }
 
 function draw() {
-    background(DarkBG);
+    bg = document.documentElement.getAttribute('data-theme') === 'dark' ? '#0B192C' : '#AF8F6F';
+    background(bg);
 }
