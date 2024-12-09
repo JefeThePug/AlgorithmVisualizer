@@ -38,8 +38,8 @@ body {
 canvas {
     border: 5px solid var(--highlight1);
     box-shadow: var(--highlight1) 0 2px 4px,
-    var(--highlight1) 0 4px 8px,
-    var(--highlight1) 0 8px 16px;
+    var(--highlight1)  4px 8px,
+    var(--highlight1) 0px 8px 16px;
     margin: 0;
 }
 
@@ -73,6 +73,7 @@ label {
     border: none;
     border-radius: 3px;
     font-family: "Averia Sans Libre", sans-serif;
+    text-indent: 0.01px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -325,7 +326,7 @@ input:checked + .switch-slider:before {
 .light-switch {
     position: absolute;
     top: 1em;
-    right: 1em;
+    left: 49em;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
